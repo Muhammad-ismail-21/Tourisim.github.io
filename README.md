@@ -1,4 +1,5 @@
-# Tourisim.github.io
+# Tourism Management System
+
 ## Portfolio
 
 ### Hello, I'm **Mahammadismail Quadri** 👋
@@ -58,19 +59,13 @@ I am passionate about technology and problem-solving. Here's a glimpse of my wor
 ## Portfolio Topic
 
 <dl>
-<dt>Course Name</dt>
-<dd>Algorithm Lab</dd>
-<dt>Course Code</dt>
-<dd>24ECSP205</dd>
-<br>
-<dt>**Name : **</dt>
-<dd>Mahammadismail Quadri</dd>
-<dt>**SRN : **</dt>
-<dd>20FE23BCS063</dd>
-<dt>**Course Instructor : **</dt>
-<dd>Prof. Vaishali Parab</dd>
-<dt>**University : **</dt>
-<dd>KLE Technological University</dd>
+<dt>Course Name : Algorithm Lab</dt>
+<dt>Course Code : 24ECSP205</dt>
+<hr>
+<dt>Name : ahammadismail Quadri</dt>
+<dt>SRN : 20FE23BCS063</dt>
+<dt>Course Instructor : Prof. Vaishali Parab</dt>
+<dt>University : KLE Technological University</dt>
 </dl>
 
 <br> 
