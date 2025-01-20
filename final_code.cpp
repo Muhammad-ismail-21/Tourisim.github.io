@@ -1,14 +1,18 @@
 #include <iostream>
 #include <string>
 #include <vector>
+
 #include <regex>
 #include <fstream>
+
 #include <iomanip>
 #include <ctime>
 #include <algorithm>
 #include <unordered_map>
+
 #include <numeric>
 #include<iomanip>
+
 #include <conio.h> // For getch()
 
 using namespace std;
@@ -45,11 +49,14 @@ void saveUsersToFile();
 int findUserIndex(const string& username);
 void displayUserDetails();
 bool deleteUserAccount();
+
 void registerUser();
 bool loginUser();
 void updateUserDetails();
 void addSchedule();
+
 void updateSchedule();
+
 void deleteSchedule();
 void viewSchedules();
 void searchScheduleByDate();
@@ -86,6 +93,7 @@ void loadUsersFromFile() {
         string username,password, fullName, email, phone;
         while (file >> username >> fullName >> email >> phone) {
             User newUser = {username, fullName, email, phone};
+            
             users.push_back(newUser);
         }
         file.close();
@@ -117,6 +125,7 @@ int findUserIndex(const string& username) {
             return i;
         }
     }
+    
     return -1; // User not found
 }
 
@@ -150,6 +159,7 @@ void registerUser() {
     while (true) {
         cout << "Enter username: ";
         cin >> input;
+        
         bool usernameExists = false;
         for (const auto& user : users) {
             if (user.username == input) {
@@ -191,6 +201,7 @@ void registerUser() {
     // Get email
     while (true) {
         cout << "Enter email: ";
+        
         cin >> input;
         if (regex_match(input, emailRegex)) {
             newUser.email = input;
@@ -233,6 +244,7 @@ bool loginUser() {
     cout << "Login User" << endl;
 
     // Prompt user for username
+    
     cout << "Enter username: ";
     cin >> username;
 
@@ -296,6 +308,8 @@ void updateUserDetails() {
                     getline(cin, input);
                     if (input.empty()) {
                         break; // Keep current email
+
+                        
                     }
                     if (regex_match(input, emailRegex)) {
                         user.email = input;
@@ -371,6 +385,7 @@ void displayUserDetails() {
     cout << "Enter your username to display details: ";
     cin >> username;
 
+    
     int userIndex = findUserIndex(username);
     if (userIndex == -1) {
         cout << "User not found. Please check your username." << endl;
@@ -423,6 +438,7 @@ bool deleteUserAccount() {
     cout << "Account deleted successfully!" << endl;
     return true;
 }
+
 
 struct Schedule {
     string username;  // To associate the schedule with the user
@@ -487,6 +503,8 @@ void addSchedule() {
     }
 
     // Get time
+    
+    
     while (true) {
         cout << "Enter time (HH:MM): ";
         cin >> input;
@@ -538,6 +556,7 @@ void updateSchedule() {
 
             // Update date
             while (true) {
+                
                 cout << "Enter new date (YYYY-MM-DD, leave blank to keep current): ";
                 cin.ignore();
                 getline(cin, input);
@@ -580,6 +599,7 @@ void updateSchedule() {
             if (!input.empty()) {
                 schedule.location = input;
             }
+            
 
             cout << "Schedule updated successfully!" << endl;
             saveSchedulesToFile(); // Save the updated schedules to the file
@@ -611,6 +631,7 @@ void deleteSchedule() {
             cout << "Are you sure you want to delete this schedule? (y/n): ";
             cin >> confirm;
             if (confirm == 'y' || confirm == 'Y') {
+                
                 // Delete the schedule
                 schedules.erase(it);
                 saveSchedulesToFile(); // Save the updated schedules to the file
@@ -653,6 +674,7 @@ void viewSchedules() {
 void searchScheduleByDate() {
     loadSchedulesFromFile(); // Ensure the latest data is loaded from the file
 
+    
     string date;
     regex dateRegex(R"(\d{4}-\d{2}-\d{2})"); // Simple date format YYYY-MM-DD
 
@@ -694,6 +716,7 @@ struct Expense {
     string category;
     double amount;
     string description;
+
 };
 
 // A vector to hold expenses
@@ -715,6 +738,7 @@ void loadExpensesFromFile() {
         return; // If the file does not exist, return
     }
 
+    
     Expense expense;
     while (inFile >> expense.username >> expense.date >> expense.category >> expense.amount) {
         inFile.ignore(); // Ignore the whitespace before reading description
@@ -746,6 +770,7 @@ void addExpense() {
         }
     }
 
+    
     // Get category
     cout << "Enter category (e.g., Food, Travel, Accommodation): ";
     cin >> newExpense.category;
@@ -787,6 +812,7 @@ void updateExpense() {
 
     // Find the expense to update
     bool expenseFound = false;
+    
     for (auto& expense : expenses) {
         if (expense.username == loggedInUsername && expense.date == date && expense.description == description) {
             expenseFound = true;
@@ -829,6 +855,7 @@ void updateExpense() {
                     expense.amount = stod(input);
                     break;
                 } catch (invalid_argument&) {
+                    
                     cout << "Invalid amount format. Please enter a valid number." << endl;
                 }
             }
@@ -860,6 +887,7 @@ void deleteExpense() {
     cout << "Enter the description of the expense you want to delete: ";
     cin.ignore();
     getline(cin, description);
+    
 
     // Find the expense to delete
     bool expenseFound = false;
@@ -902,6 +930,7 @@ void viewExpenses() {
                  << setw(10) << expense.amount
                  << setw(30) << expense.description << endl;
             hasExpenses = true;
+            
         }
     }
 
@@ -954,6 +983,7 @@ bool adminLogin() {
     cout << "Enter admin username: ";
     cin >> username;
     cout << "Enter admin password: ";
+    
     password = getPasswordInput();
 
     if (username == ADMIN_USERNAME && password == ADMIN_PASSWORD) {
@@ -1006,6 +1036,7 @@ bool isInactive(const string& lastLoginDate, const string& currentDate) {
     int currYear, currMonth, currDay;
 
     sscanf(lastLoginDate.c_str(), "%d-%d-%d", &lastYear, &lastMonth, &lastDay);
+    
     sscanf(currentDate.c_str(), "%d-%d-%d", &currYear, &currMonth, &currDay);
 
     if ((currYear - lastYear) > 1) {
@@ -1069,6 +1100,7 @@ void backupFile(const string& sourceFile, const string& backupFile) {
 }
 
 void backupData() {
+    
     string currentDateTime = getCurrentDateTime();
 
     // Backup users data
@@ -1111,6 +1143,7 @@ void restoreData() {
     cin >> usersBackupFile;
     cout << "Enter the backup file name for expenses data: ";
     cin >> expensesBackupFile;
+    
 
     // Restore users data
     restoreFile(usersBackupFile, "users.txt");
@@ -1163,6 +1196,7 @@ void quickSort(vector<Expense>& arr, int low, int high) {
         quickSort(arr, low, pi - 1);
         quickSort(arr, pi + 1, high);
     }
+    
 }
 
 void sortExpensesByCategory() {
@@ -1216,6 +1250,7 @@ void findMaxExpense() {
     if (expenses.empty()) {
         cout << "No expenses found." << endl;
         return;
+        
     }
 
     Expense maxExpense = expenses[0]; // Initialize maxExpense with the first expense
@@ -1280,6 +1315,8 @@ void generateBudgetSummary() {
     cout << setw(20) << left << "Category" << setw(10) << right << "Total Amount" << endl;
     cout << string(30, '-') << endl;
 
+    
+
     for (const auto& entry : categoryTotals) {
         cout << setw(20) << left << entry.first << setw(10) << right << entry.second << endl;
     }
@@ -1290,6 +1327,7 @@ map<string, double> aggregateExpensesByMonth() {
     map<string, double> monthlyExpenses;
 
     for (const auto& expense : expenses) {
+        
         string month = expense.date.substr(0, 7); // Extract YYYY-MM
         monthlyExpenses[month] += expense.amount;
     }
@@ -1321,6 +1359,7 @@ void compareExpensesByCategory() {
     if (expenses.empty()) {
         cout << "No expenses found." << endl;
         return;
+        
     }
 
     unordered_map<string, double> categoryTotals;
@@ -1374,6 +1413,8 @@ void generateTravelStatistics() {
     double averageDistance = totalDistance / travels.size();
     int numberOfTrips = travels.size();
 
+    
+
     // Display the travel statistics
     cout << "Travel Statistics:\n";
     cout << "Total Distance Traveled: " << totalDistance << " km" << endl;
@@ -1384,6 +1425,7 @@ void generateTravelStatistics() {
 // A map to hold budget data
 unordered_map<string, double> budget;
 
+
 // Function to load budget from a file
 void loadBudgetFromFile() {
     ifstream inFile("budget.txt");
@@ -1393,6 +1435,7 @@ void loadBudgetFromFile() {
     }
 
    string category;
+    
     double amount;
     while (inFile >> category >> amount) {
         budget[category] = amount;
@@ -1424,6 +1467,7 @@ void notifyOverBudget() {
 
     // Notify if any category exceeds the budget
     bool overBudget = false;
+    
     for (const auto& entry : categoryTotals) {
         const string& category = entry.first;
         double totalExpense = entry.second;
@@ -1466,6 +1510,7 @@ struct Room
 
 // Data Structure for Hotel
 
+
 struct Hotel
 {
     string name;
@@ -1477,6 +1522,7 @@ struct Hotel
     double rating;  // New field for rating
 
     // Constructor with rating
+
     Hotel(string name, double distanceFromPlace, int pricePerNight, vector<Room> rooms, string description, string contactNumber, double rating)
         : name(name), distanceFromPlace(distanceFromPlace), pricePerNight(pricePerNight), rooms(rooms), description(description), contactNumber(contactNumber), rating(rating) {}
 };
@@ -1487,6 +1533,7 @@ struct TouristPlace
 {
     string name;
     string location;
+
     vector<string> facilities;
     vector<Hotel> hotels;
 
@@ -1540,6 +1587,8 @@ vector<string> readBookingsFromFile()
 
 
 
+
+
 // Function to write canceled booking details to cancel.txt
 void writeCanceledToFile(const string &canceledDetails)
 {
@@ -1580,6 +1629,7 @@ vector<string> readFile(const string &filename)
 
 // Function to write data to a file
 void writeFile(const string &filename, const vector<string> &data)
+
 {
 
     ofstream file(filename);
@@ -1622,6 +1672,7 @@ void displayMenu()
     cout << "3. Hotels by Rating  \t-";
     cout << "   View Hotels Sorted by Rating\n";
 
+    
     cout << "4. Book Your Stay  \t-";
     cout << "   Reserve the perfect room.\n";
 
@@ -1640,6 +1691,7 @@ void displayMenu()
 
     cout << "\nPlease select an option (1-7): ";
 }
+
 
 
 
@@ -1674,6 +1726,7 @@ void bookingDetails()
     cout << "                       Booking Details\n";
     cout << "==========================================================\n";
     vector<string> bookings = readBookingsFromFile(); // Read bookings from file
+    
 
     if (!bookings.empty())
     {
@@ -1705,6 +1758,7 @@ void viewdetails()
     int ch;
     cout << "\nEnter your choice : ";
     cin >> ch;
+    
 
     switch(ch)
     {
@@ -1746,6 +1800,7 @@ void displayHotels(const vector<Hotel> &hotels)
         cout << "       Room Type         Price          Availability" << endl;
         displayLine();  // Assuming displayLine is used to separate sections visually
 
+        
         // Loop through rooms and display availability
         for (const auto &room : hotels[i].rooms)
         {
@@ -1788,6 +1843,7 @@ void bookRoom(vector<TouristPlace> &places)
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         // Discard invalid input
     }
+    
 
     // Display the list of hotels in the selected tourist place
     cout << "\nAvailable Hotels:\n";
@@ -1819,6 +1875,7 @@ void bookRoom(vector<TouristPlace> &places)
     cout << "\n=====================================================\n";
     cout << "      Selected Hotel: " << selectedHotel.name << "\n";
     cout << "=====================================================\n";
+    
 
     cout << "\nAvailable Rooms:\n";
     bool roomAvailable = false;
@@ -1850,6 +1907,7 @@ void bookRoom(vector<TouristPlace> &places)
     // Input validation for room choice
     while (!(cin >> roomChoice) || roomChoice < 1 || roomChoice > selectedHotel.rooms.size() || !selectedHotel.rooms[roomChoice - 1].isAvailable)
     {
+        
         cout << "\nInvalid room choice or the room is already booked! \nPlease enter a valid room number : ";
         cin.clear(); // Clear the error flag
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -1870,6 +1928,7 @@ void bookRoom(vector<TouristPlace> &places)
     transform(confirmation.begin(), confirmation.end(), confirmation.begin(), ::tolower);
 
     // Process booking confirmation
+    
     if (confirmation == "yes")
     {
         // Ask for payment method
@@ -1901,6 +1960,7 @@ void bookRoom(vector<TouristPlace> &places)
                                     string("==============================\n");
 
             writeBookingToFile(bookingDetails); // Save booking details to file
+            
         }
 
         else
@@ -1933,6 +1993,7 @@ void displayTouristPlaces(const vector<TouristPlace> &places)
 
 
 
+
 // Function to display hotel names for the selected tourist place
 void displayHotelNames(const TouristPlace &place)
 {
@@ -1954,6 +2015,7 @@ void displayHotelNames(const TouristPlace &place)
 
 
 
+
 // Function to display details of the selected hotel
 // Function to display details of a selected hotel
 void displaySelectedHotelDetails(const Hotel &hotel)
@@ -1962,6 +2024,7 @@ void displaySelectedHotelDetails(const Hotel &hotel)
     cout << "\n==========================================================\n";
     cout << "Hotel Details: " << hotel.name << endl;
     cout << "==========================================================\n";
+    
 
     // Display location details
     cout << "Location Details:\n";
@@ -1972,6 +2035,7 @@ void displaySelectedHotelDetails(const Hotel &hotel)
     cout << "  Description:\n    " << hotel.description << endl;
     cout << "  Contact Information:         " << hotel.contactNumber << endl;
      // Fixed typo 'contact' to 'contactNumber'
+    
 
     // Function to display a separator line
     displayLine();
@@ -1982,6 +2046,7 @@ void displaySelectedHotelDetails(const Hotel &hotel)
     cout << setw(15) << "Room Type";
     cout << setw(20);
     cout << "Price per Night" ;
+    
     cout << setw(20);
     cout << "Availability";
     cout << endl;
@@ -2034,6 +2099,7 @@ void searchAccommodation(const vector<TouristPlace> &places)
             // Check if the lowercase hotel name contains the search query
             if (hotelNameLower.find(searchQuery) != string::npos)
             {
+                
                 // If a match is found, display the hotel and the associated tourist place
                 cout << "Found: " << hotel.name << " near " << place.name << endl;
                 found = true;
@@ -2054,6 +2120,7 @@ void searchAccommodation(const vector<TouristPlace> &places)
 void cancelBooking(vector<TouristPlace>& places)
 
 {
+    
     // Display a separator and the cancel booking title
     cout << "\n=====================================================\n";
     cout << "              Cancel a Booking\n";
@@ -2085,6 +2152,7 @@ void cancelBooking(vector<TouristPlace>& places)
         cout << "\n";
         // Add a blank line between different bookings
     }
+    
 
     // Prompt user to select a booking to cancel
     cout << "\nEnter the booking number to cancel (1-" << (bookingIndex - 1) << ") : ";
@@ -2127,6 +2195,7 @@ void cancelBooking(vector<TouristPlace>& places)
     {
         for (auto &hotel : place.hotels)
         {
+            
             if (hotel.name == hotelName)
             {
                 for (auto &room : hotel.rooms)
@@ -2169,6 +2238,8 @@ void cancelBooking(vector<TouristPlace>& places)
         writeCanceledToFile(canceledDetails);
         // Save canceled booking details to file
 
+        
+        
         // Remove the canceled booking from the bookings list
         bookings.erase(bookings.begin() + bookingStartIndex, bookings.begin() + bookingStartIndex + 8);
 
